@@ -1,0 +1,247 @@
+learning page: index.html : <!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>CodeNova Bootcamp</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+
+
+  <style>
+
+    * {
+
+      margin: 0;
+
+      padding: 0;
+
+      box-sizing: border-box;
+
+      font-family: 'Poppins', sans-serif;
+
+    }
+
+
+
+    body {
+
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+
+      color: white;
+
+    }
+
+
+
+    header {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      padding: 20px 50px;
+
+    }
+
+
+
+    nav a {
+
+      margin-left: 20px;
+
+      color: white;
+
+      text-decoration: none;
+
+    }
+
+
+
+    .hero {
+
+      text-align: center;
+
+      padding: 100px 20px;
+
+    }
+
+
+
+    .hero h1 {
+
+      font-size: 3rem;
+
+      background: linear-gradient(90deg, #00f2fe, #4facfe);
+
+      -webkit-background-clip: text;
+
+      -webkit-text-fill-color: transparent;
+
+    }
+
+
+
+    .hero p {
+
+      margin-top: 20px;
+
+      opacity: 0.8;
+
+    }
+
+
+
+    .btn {
+
+      margin-top: 30px;
+
+      display: inline-block;
+
+      padding: 15px 30px;
+
+      border-radius: 30px;
+
+      background: linear-gradient(90deg, #00f2fe, #4facfe);
+
+      color: black;
+
+      text-decoration: none;
+
+      font-weight: bold;
+
+    }
+
+
+
+    .features {
+
+      display: grid;
+
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+      gap: 20px;
+
+      padding: 50px;
+
+    }
+
+
+
+    .card {
+
+      background: rgba(255,255,255,0.08);
+
+      padding: 25px;
+
+      border-radius: 15px;
+
+      backdrop-filter: blur(10px);
+
+    }
+
+
+
+    footer {
+
+      text-align: center;
+
+      padding: 20px;
+
+      opacity: 0.6;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+
+
+<header>
+
+  <h2>CodeNova</h2>
+
+  <nav>
+
+    <a href="#">Home</a>
+
+    <a href="#">Courses</a>
+
+    <a href="#">Contact</a>
+
+  </nav>
+
+</header>
+
+
+
+<section class="hero">
+
+  <h1>Become a Developer in 12 Weeks 🚀</h1>
+
+  <p>Join our immersive web development bootcamp and build real projects.</p>
+
+
+
+  <!-- BUTTON LINKED -->
+
+  <a href="enroll.html" class="btn">Enroll Now</a>
+
+</section>
+
+
+
+<section class="features">
+
+  <div class="card">
+
+    <h3>🔥 Real Projects</h3>
+
+    <p>Work on live applications.</p>
+
+  </div>
+
+
+
+  <div class="card">
+
+    <h3>👨‍💻 Mentorship</h3>
+
+    <p>Learn from industry experts.</p>
+
+  </div>
+
+
+
+  <div class="card">
+
+    <h3>💼 Job Ready</h3>
+
+    <p>Get interview preparation.</p>
+
+  </div>
+
+</section>
+
+
+
+<footer>
+
+  <p>© 2026 CodeNova Bootcamp</p>
+
+</footer>
+
+
+
+</body>
+
+</html>
