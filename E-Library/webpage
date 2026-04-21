@@ -1,0 +1,501 @@
+library : <!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Dream Library ✨</title>
+
+
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Poppins:wght@300;400&display=swap');
+
+
+
+:root {
+
+    --bg: linear-gradient(135deg, #1d2671, #c33764);
+
+    --card: rgba(255,255,255,0.08);
+
+    --text: #fff;
+
+}
+
+
+
+.light {
+
+    --bg: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+
+    --card: rgba(0,0,0,0.05);
+
+    --text: #222;
+
+}
+
+
+
+body {
+
+    margin: 0;
+
+    font-family: 'Poppins', sans-serif;
+
+    background: var(--bg);
+
+    color: var(--text);
+
+    transition: 0.5s;
+
+}
+
+
+
+/* HEADER */
+
+header {
+
+    text-align: center;
+
+    padding: 25px;
+
+    font-family: 'Cinzel', serif;
+
+    font-size: 2.8em;
+
+    letter-spacing: 3px;
+
+}
+
+
+
+/* CONTROLS */
+
+.controls {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    padding: 15px;
+
+}
+
+
+
+input, select {
+
+    padding: 10px;
+
+    border-radius: 20px;
+
+    border: none;
+
+    outline: none;
+
+}
+
+
+
+button {
+
+    padding: 10px 15px;
+
+    border-radius: 20px;
+
+    border: none;
+
+    cursor: pointer;
+
+    background: #ff7eb3;
+
+    color: white;
+
+    transition: 0.3s;
+
+}
+
+
+
+button:hover {
+
+    transform: scale(1.1);
+
+    background: #ff4f91;
+
+}
+
+
+
+/* LIBRARY GRID */
+
+.library {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+    gap: 20px;
+
+    padding: 20px;
+
+}
+
+
+
+/* BOOK CARD */
+
+.book {
+
+    background: var(--card);
+
+    border-radius: 20px;
+
+    backdrop-filter: blur(10px);
+
+    overflow: hidden;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+
+    transition: 0.4s;
+
+}
+
+
+
+.book:hover {
+
+    transform: translateY(-10px) rotate(-1deg);
+
+}
+
+
+
+/* COVER */
+
+.cover {
+
+    height: 180px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-family: 'Cinzel', serif;
+
+    font-size: 1.2em;
+
+    text-align: center;
+
+    padding: 10px;
+
+    background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+
+}
+
+
+
+/* CONTENT */
+
+.book-content {
+
+    padding: 15px;
+
+}
+
+
+
+.genre {
+
+    font-size: 0.8em;
+
+    opacity: 0.8;
+
+}
+
+
+
+.remove-btn {
+
+    margin-top: 10px;
+
+    width: 100%;
+
+    background: #ff4d4d;
+
+}
+
+
+
+/* FOOTER */
+
+.footer {
+
+    text-align: center;
+
+    padding: 10px;
+
+    opacity: 0.8;
+
+}
+
+</style>
+
+</head>
+
+
+
+<body>
+
+
+
+<header>📖 Dream Library</header>
+
+
+
+<div class="controls">
+
+    <input id="title" placeholder="Book Title">
+
+    <input id="author" placeholder="Author">
+
+    <select id="genre">
+
+        <option>Fantasy</option>
+
+        <option>Romance</option>
+
+        <option>Horror</option>
+
+        <option>Sci-Fi</option>
+
+        <option>Classic</option>
+
+    </select>
+
+    <button onclick="addBook()">Add</button>
+
+
+
+    <input id="search" placeholder="Search title">
+
+    <button onclick="searchBook()">Search</button>
+
+    <button onclick="showAll()">Show All</button>
+
+
+
+    <button onclick="toggleTheme()">🌙/☀️</button>
+
+</div>
+
+
+
+<div class="library" id="library"></div>
+
+<div class="footer" id="capacity"></div>
+
+
+
+<script>
+
+const MAX_BOOKS = 12;
+
+let books = JSON.parse(localStorage.getItem("books")) || [];
+
+
+
+/* RANDOM COVER COLORS */
+
+function randomGradient() {
+
+    const colors = [
+
+        ["#ff9a9e","#fad0c4"],
+
+        ["#a18cd1","#fbc2eb"],
+
+        ["#fad0c4","#ffd1ff"],
+
+        ["#ffecd2","#fcb69f"],
+
+        ["#667eea","#764ba2"]
+
+    ];
+
+    let c = colors[Math.floor(Math.random()*colors.length)];
+
+    return `linear-gradient(45deg, ${c[0]}, ${c[1]})`;
+
+}
+
+
+
+function save() {
+
+    localStorage.setItem("books", JSON.stringify(books));
+
+}
+
+
+
+function updateDisplay(list = books) {
+
+    const lib = document.getElementById("library");
+
+    lib.innerHTML = "";
+
+
+
+    list.forEach((b, i) => {
+
+        let div = document.createElement("div");
+
+        div.className = "book";
+
+
+
+        div.innerHTML = `
+
+            <div class="cover" style="background:${b.color}">
+
+                ${b.title}
+
+            </div>
+
+            <div class="book-content">
+
+                <h3>${b.title}</h3>
+
+                <p>${b.author}</p>
+
+                <p class="genre">${b.genre}</p>
+
+                <button class="remove-btn" onclick="removeBook(${i})">Remove</button>
+
+            </div>
+
+        `;
+
+
+
+        lib.appendChild(div);
+
+    });
+
+
+
+    document.getElementById("capacity").innerText =
+
+        `Collection: ${books.length}/${MAX_BOOKS}`;
+
+}
+
+
+
+function addBook() {
+
+    let t = title.value.trim();
+
+    let a = author.value.trim();
+
+    let g = genre.value;
+
+
+
+    if (!t || !a) return alert("Fill all fields!");
+
+    if (books.length >= MAX_BOOKS) return alert("Library full!");
+
+
+
+    books.push({
+
+        title: t,
+
+        author: a,
+
+        genre: g,
+
+        color: randomGradient()
+
+    });
+
+
+
+    save();
+
+    updateDisplay();
+
+
+
+    title.value = "";
+
+    author.value = "";
+
+}
+
+
+
+function removeBook(i) {
+
+    books.splice(i,1);
+
+    save();
+
+    updateDisplay();
+
+}
+
+
+
+function searchBook() {
+
+    let q = search.value.toLowerCase();
+
+    let res = books.filter(b => b.title.toLowerCase().includes(q));
+
+    updateDisplay(res);
+
+}
+
+
+
+function showAll() {
+
+    updateDisplay();
+
+}
+
+
+
+function toggleTheme() {
+
+    document.body.classList.toggle("light");
+
+}
+
+
+
+/* INIT */
+
+updateDisplay();
+
+</script>
+
+
+
+</body>
+
+</html>
