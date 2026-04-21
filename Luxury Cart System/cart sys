@@ -1,0 +1,539 @@
+shopping cart: <!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Luxury Cart System</title>
+
+
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+
+
+<style>
+
+* {
+
+    margin: 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+}
+
+
+
+body {
+
+    font-family: 'Poppins', sans-serif;
+
+    height: 100vh;
+
+    background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color: white;
+
+}
+
+
+
+/* Glass Container */
+
+.container {
+
+    width: 480px;
+
+    padding: 25px;
+
+    border-radius: 25px;
+
+    background: rgba(255,255,255,0.08);
+
+    backdrop-filter: blur(25px);
+
+    box-shadow: 0 0 60px rgba(0,0,0,0.6);
+
+    border: 1px solid rgba(255,255,255,0.1);
+
+}
+
+
+
+/* Title */
+
+h1 {
+
+    text-align: center;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 20px;
+
+    background: linear-gradient(90deg, #00f2fe, #4facfe);
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+}
+
+
+
+/* Inputs */
+
+input, select {
+
+    width: 100%;
+
+    padding: 12px;
+
+    margin: 8px 0;
+
+    border-radius: 12px;
+
+    border: none;
+
+    outline: none;
+
+    background: rgba(255,255,255,0.1);
+
+    color: white;
+
+}
+
+
+
+/* Buttons */
+
+button {
+
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 10px;
+
+    border-radius: 12px;
+
+    border: none;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
+    letter-spacing: 0.5px;
+
+    transition: all 0.3s ease;
+
+}
+
+
+
+.addBtn {
+
+    background: linear-gradient(45deg, #00f2fe, #4facfe);
+
+}
+
+
+
+.removeBtn {
+
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+
+}
+
+
+
+button:hover {
+
+    transform: translateY(-2px) scale(1.03);
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+
+}
+
+
+
+/* Cart List */
+
+.cart {
+
+    margin-top: 20px;
+
+    max-height: 220px;
+
+    overflow-y: auto;
+
+}
+
+
+
+/* Item Card */
+
+.item {
+
+    background: rgba(255,255,255,0.08);
+
+    border-radius: 14px;
+
+    padding: 12px;
+
+    margin: 8px 0;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    animation: slideIn 0.4s ease;
+
+    border-left: 4px solid #00f2fe;
+
+}
+
+
+
+/* Animations */
+
+@keyframes slideIn {
+
+    from {opacity: 0; transform: translateX(-20px);}
+
+    to {opacity: 1; transform: translateX(0);}
+
+}
+
+
+
+.fadeOut {
+
+    animation: fadeOut 0.4s forwards;
+
+}
+
+
+
+@keyframes fadeOut {
+
+    to {opacity: 0; transform: translateX(30px);}
+
+}
+
+
+
+/* Badge */
+
+.badge {
+
+    font-size: 12px;
+
+    padding: 4px 8px;
+
+    border-radius: 8px;
+
+    background: rgba(0,0,0,0.3);
+
+}
+
+
+
+/* Footer */
+
+.footer {
+
+    margin-top: 15px;
+
+    text-align: center;
+
+    font-weight: 500;
+
+    opacity: 0.8;
+
+}
+
+</style>
+
+</head>
+
+
+
+<body>
+
+
+
+<div class="container">
+
+    <h1>🛒 Luxury Cart</h1>
+
+
+
+    <input type="number" id="id" placeholder="Item ID">
+
+    <input type="text" id="name" placeholder="Item Name">
+
+
+
+    <select id="position">
+
+        <option value="head">Insert at Head ⚡</option>
+
+        <option value="tail">Insert at Tail ➕</option>
+
+    </select>
+
+
+
+    <button class="addBtn" onclick="addItem()">Add Item</button>
+
+
+
+    <input type="number" id="removeId" placeholder="Remove Item by ID">
+
+    <button class="removeBtn" onclick="removeItem()">Remove Item</button>
+
+
+
+    <div class="cart" id="cartDisplay"></div>
+
+
+
+    <div class="footer" id="total"></div>
+
+</div>
+
+
+
+<script>
+
+class Node {
+
+    constructor(id, name) {
+
+        this.id = id;
+
+        this.name = name;
+
+        this.next = null;
+
+    }
+
+}
+
+
+
+class LinkedList {
+
+    constructor() {
+
+        this.head = null;
+
+    }
+
+
+
+    insertHead(id, name) {
+
+        const node = new Node(id, name);
+
+        node.next = this.head;
+
+        this.head = node;
+
+    }
+
+
+
+    insertTail(id, name) {
+
+        const node = new Node(id, name);
+
+        if (!this.head) {
+
+            this.head = node;
+
+            return;
+
+        }
+
+        let temp = this.head;
+
+        while (temp.next) temp = temp.next;
+
+        temp.next = node;
+
+    }
+
+
+
+    removeById(id) {
+
+        if (!this.head) return false;
+
+
+
+        if (this.head.id == id) {
+
+            this.head = this.head.next;
+
+            return true;
+
+        }
+
+
+
+        let temp = this.head;
+
+        while (temp.next && temp.next.id != id) {
+
+            temp = temp.next;
+
+        }
+
+
+
+        if (temp.next) {
+
+            temp.next = temp.next.next;
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+
+
+
+    getAll() {
+
+        let arr = [];
+
+        let temp = this.head;
+
+        while (temp) {
+
+            arr.push(temp);
+
+            temp = temp.next;
+
+        }
+
+        return arr;
+
+    }
+
+}
+
+
+
+const cart = new LinkedList();
+
+
+
+function addItem() {
+
+    const id = document.getElementById("id").value;
+
+    const name = document.getElementById("name").value;
+
+    const pos = document.getElementById("position").value;
+
+
+
+    if (!id || !name) return alert("Fill all fields");
+
+
+
+    pos === "head" 
+
+        ? cart.insertHead(id, name)
+
+        : cart.insertTail(id, name);
+
+
+
+    render();
+
+}
+
+
+
+function removeItem() {
+
+    const id = document.getElementById("removeId").value;
+
+    const removed = cart.removeById(id);
+
+
+
+    if (!removed) return alert("Item not found");
+
+
+
+    render();
+
+}
+
+
+
+function render() {
+
+    const container = document.getElementById("cartDisplay");
+
+    container.innerHTML = "";
+
+
+
+    const items = cart.getAll();
+
+
+
+    items.forEach(item => {
+
+        const div = document.createElement("div");
+
+        div.className = "item";
+
+        div.innerHTML = `
+
+            <span><b>${item.name}</b> (ID: ${item.id})</span>
+
+            <span class="badge">Node</span>
+
+        `;
+
+        container.appendChild(div);
+
+    });
+
+
+
+    document.getElementById("total").innerText =
+
+        `Total Nodes in Cart: ${items.length}`;
+
+}
+
+</script>
+
+
+
+</body>
+
+</html>
